@@ -14,10 +14,21 @@ router.get('/', (req,res) => {
 })
 
 router.post('/login', (req,res) => {
-
+    try{
+        let usuario= req.body.usuario
+        let senha = req.body.senha
+        userChecagem = Usuarios.getUsuario(usuario,senha)
+        if(userChecagem === null){
+            res.status(403).send({mensagem: "usuario nao encontrado"})
+        } else {
+            res.status(200).send({mensagem:"usuario encontrado", user: userChecagem})
+        }
+    } catch(error){
+        res.status(400).send({erro: error.message})
+    }
 })
 
-router.post('/cadastrosUsuarios', (req,res) => {
+router.post('/cadastroUser', (req,res) => {
     try{
         const {usuario,senha,idade,nome,cidade} = req.body
         let user = Usuarios.novoUsuario(usuario,senha,idade,nome,cidade)

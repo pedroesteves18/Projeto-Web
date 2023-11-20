@@ -1,20 +1,27 @@
 var usuarios = []
 var admin = []
-var id = 0
 
 module.exports = {
     novoUsuario: function(usuario,senha,idade,nome,cidade){
-        if(usuario,senha,idade,nome,cidade === null){
+        if(usuario === undefined || senha === undefined || idade === undefined || nome === undefined || cidade === undefined){
             return null
         } else {
-            usuario = [usuario,senha,idade,nome,cidade]
-            usuarios.push(usuario)
-            return usuario
+            const NovoUsuario = [usuario,senha,idade,nome,cidade]
+            usuarios.push(NovoUsuario)
+            return NovoUsuario
         }
     },
     novoAdmin: function(usuario,senha){
         novoAdm = [usuario,senha]
-        admin.push[novoAdm]
+        admin.push(novoAdm)
         return novoAdm
+    },
+    getUsuario: function(usuario,senha){
+        for (var i = 0; i < usuarios.length; i++) {
+            if (usuarios[i][0] === usuario && usuarios[i][1] === senha) {
+                return usuarios[i]
+            }
+        }
+        return null
     }
 }
