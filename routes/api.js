@@ -1,24 +1,40 @@
 var express = require('express')
 var router = express.Router()
-var discos = []
-var id = 0
+var Usuarios = require('../usuarios')
+router.use(express.json());
 
-router.get('/', (req,res)=> {
-    res.json({mensagem: "oi"})
+
+router.get('/install', (req,res)=> {
+    res.json({mensagem: "discos"})
 })
 
-router.post('/', (req,res) => {
-    id++
-    const disco = [req.body.musica,req.body.banda,req.body.estilo,id]
-    discos.push[disco]
-    res.json({disco: disco})
+router.get('/', (req,res) => {
+    let adm = Usuarios.novoAdmin("adm1","senha1")
+    res.json({mensagem: adm})
+})
+
+router.post('/login', (req,res) => {
+
+})
+
+router.post('/cadastrosUsuarios', (req,res) => {
+    try{
+        const {usuario,senha,idade,nome,cidade} = req.body
+        let user = Usuarios.novoUsuario(usuario,senha,idade,nome,cidade)
+        res.status(200).send({mensagem: user})
+    }catch(error){
+        res.status(400).send({erro: error.message})
+    }
+
 })
 
 router.put('/:id', (req,res) => {
-    const idAtt = req.params.id
-    const disco = [req.body.musica,req.body.banda,req.body.estilo, idAtt]
-    discos[idAtt] = disco
-    res.json({mensagem: "disco atualizado", disco: discos[idAtt]})
+
+    res.json({mensagem: ""})
+})
+
+router.delete('/:id', (req,res) => {
+    res.json({mensage: ""})
 })
 
 module.exports = router;
