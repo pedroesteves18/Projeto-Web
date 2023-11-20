@@ -20,6 +20,18 @@ module.exports= {
     verificaUser: function(req,res,next){
         const {usuario,senha} = req.body
         const user = Usuarios.getUsuario(usuario,senha)
+        if(usuario === "adm1" && senha === "senha1"){
+            try{
+                const token = jwt.sign({ usuario,papel: "adm" }, SECRET_KEY, { expiresIn: 300 }); 
+                req.token = token
+                res.status(300).json({mensagem:"adm encontrado", token})
+                next()               
+                return
+            } catch (error) {
+                res.status(500).json({erro: error.message})
+            }            
+        }
+
         if(user === null){
             res.status(400).json({mensagem:"usuario nao cadastrado"})
         } else {
