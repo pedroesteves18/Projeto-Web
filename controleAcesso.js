@@ -1,8 +1,35 @@
+const jwt = require('jsonwebtoken');
+const Usuarios = require('./usuarios')
+const SECRET_KEY = 'segredo';
 module.exports= {
-    estaLogado: function(req, res, next) {
-        if (req.session.user != undefined && req.session.user != null) {
-            return next()
+    verificaADM: function(req,res,next){
+        const { usuario, senha } = req.body;
+        const adm = Usuarios.getADM(usuario, senha);
+        if(adm === null){
+            res.status(400).json({mensagem:"nao é adm"})
+        } else {
+            try{
+                const token = jwt.sign({ usuario,papel: "adm" }, SECRET_KEY, { expiresIn: 300 }); 
+                req.token = token
+                next()               
+            } catch (error) {
+                res.status(500).json({erro: error.message})
+            }
         }
-        res.redirect("/")
-}
+    },
+    verificaUser: function(req,res,next){
+        const {usuario,senha} = req.body
+        const user = Usuarios.getUsuario(usuario,senha)
+        if(user === null){
+            res.status(400).json({mensagem:"usuario nao cadastrado"})
+        } else {
+            try{
+                const token = jwt.sign({usuario} , SECRET_KEY, { expiresIn: 300 });
+                res.status(300).json({mensagem:"usuario encontrado", token}) 
+                next()               
+            } catch (error) {
+                res.status(500).json({erro: error.message})
+            }
+        }
+    }
 }

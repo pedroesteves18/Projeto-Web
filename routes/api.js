@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
-var Usuarios = require('../usuarios')
+var Usuarios = require('../usuarios');
+const { verificaUser,verificaADM } = require('../controleAcesso');
 router.use(express.json());
 
 
@@ -13,21 +14,23 @@ router.get('/', (req,res) => {
     res.json({mensagem: adm})
 })
 
-router.post('/login', (req,res) => {
+router.post('/login', verificaUser, (req,res) => {
     try{
-        let usuario= req.body.usuario
-        let senha = req.body.senha
-        userChecagem = Usuarios.getUsuario(usuario,senha)
-        if(userChecagem === null){
-            res.status(403).send({mensagem: "usuario nao encontrado"})
-        } else {
-            res.status(200).send({mensagem:"usuario encontrado", user: userChecagem})
-        }
-    } catch(error){
+
+    }
+    catch (error) {
+        res.status(400).send({ erro: error.message });
+    }
+})
+router.post('/cadastroAdm', verificaADM, (req,res) => {
+    try{
+        const {usuario,senha} = req.body
+        let admin = Usuarios.novoAdmin(usuario,senha)
+        res.status(200).send({mensagem: admin})
+    }catch(error){
         res.status(400).send({erro: error.message})
     }
 })
-
 router.post('/cadastroUser', (req,res) => {
     try{
         const {usuario,senha,idade,nome,cidade} = req.body

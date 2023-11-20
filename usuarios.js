@@ -12,7 +12,7 @@ module.exports = {
         }
     },
     novoAdmin: function(usuario,senha){
-        novoAdm = [usuario,senha]
+        novoAdm = [usuario,senha,"adm"]
         admin.push(novoAdm)
         return novoAdm
     },
@@ -23,5 +23,14 @@ module.exports = {
             }
         }
         return null
+    },
+    getADM: function(usuario,senha){
+        for (var i = 0; i < usuarios.length; i++) {
+            if (admin[i][0] === usuario && admin[i][1] === senha) {
+                return admin[i]
+            }
+        }
+        return null
     }
+
 }
