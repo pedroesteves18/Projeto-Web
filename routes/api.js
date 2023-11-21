@@ -8,11 +8,24 @@ router.use(express.json());
 router.get('/install', (req,res)=> {
     res.json({mensagem: "discos"})
 })
-
+router.get('/Users', (req,res) => {
+    let usuarios = Usuarios.listarUsers()
+    res.json({users: usuarios})
+})
 router.get('/', (req,res) => {
     let adm = Usuarios.novoAdmin("adm1","senha1")
     console.log(adm)
     res.json({mensagem: adm})
+})
+
+router.post('/excluirUser', verificaADM, (req,res) => {
+    try{
+        let usuario = Usuarios.excluiUser(req.body.nome)
+        console.log({"usuario excluido: ": usuario})
+        res.status(200).send({excluido: usuario})
+    }catch(error){
+        res.status(400).send({erro:error.message})
+    }
 })
 
 router.post('/login', verificaUser, (req,res) => {

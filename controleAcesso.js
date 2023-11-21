@@ -9,7 +9,7 @@ module.exports= {
             if(token[0] == "Bearer") {
                 token = token[1]
             }
-            if (!token) {
+            if (!token) {   
                 return res.status(403).json({ mensagem: "Acesso negado. Token não fornecido." });
             }
             let decodedToken = jwt.verify(token, SECRET_KEY);

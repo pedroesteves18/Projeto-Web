@@ -19,6 +19,11 @@ module.exports = {
         }
     },
     novoAdmin: function(usuario, senha) {
+        const admExiste = admin.find(adm => adm.usuario === usuario || adm.senha === senha)
+        if (admExiste){
+            return {error: "escolha um usuario ou senha diferente"}
+        }
+
         const novoAdm = {
             usuario: usuario,
             senha: senha,
@@ -42,6 +47,21 @@ module.exports = {
             }
         }
         return null;
+    },
+    excluiUser: function(nome){
+        for(var i =0; i<usuarios.length;i++){
+            if(usuarios[i].nome === nome){
+                let usuarioExcluido = usuarios.splice(i,1)
+                return usuarioExcluido
+            }
+        }
+    },
+    listarUsers: function(){
+        let usuariosImp= [] 
+        for (var i = 0; i < usuarios.length; i++) {
+            usuariosImp[i] = usuarios[i]
+        }
+        return usuariosImp;
     }
 
 }
