@@ -1,8 +1,14 @@
 var usuarios = []
 var admin = []
-
+var idAdm = 0
+var idUser = 0
 module.exports = {
     novoUsuario: function(usuario, senha, idade, nome, cidade) {
+        const UserExiste  = usuarios.find(user=> user.usuario === usuario || user.senha === senha)
+        if(UserExiste){
+            return {error:"escolha um usuario ou senha diferente"}
+        }
+        idUser++
         if (usuario && senha && idade && nome && cidade) {
             const novoUsuario = {
                 usuario: usuario,
@@ -10,6 +16,7 @@ module.exports = {
                 idade: idade,
                 nome: nome,
                 cidade: cidade,
+                id: idUser,
                 roles: "user"
             };
             usuarios.push(novoUsuario);
@@ -23,10 +30,11 @@ module.exports = {
         if (admExiste){
             return {error: "escolha um usuario ou senha diferente"}
         }
-
+        idAdm++
         const novoAdm = {
             usuario: usuario,
             senha: senha,
+            id: idAdm,
             roles: "adm"
         };
         admin.push(novoAdm);
@@ -62,6 +70,33 @@ module.exports = {
             usuariosImp[i] = usuarios[i]
         }
         return usuariosImp;
+    },
+    alterarUser: function(id,usuario, senha, idade, nome, cidade){
+        for (var i = 0; i < usuarios.length; i++) {
+            if(usuarios[i].id === id){
+                if(usuario === undefined){
+                    usuario = usuarios[i].usuario
+                }
+                if(senha === undefined){
+                    senha = usuarios[i].senha
+                }
+                if(idade === undefined){
+                    idade = usuarios[i].idade
+                }
+                if(nome === undefined){
+                    nome = usuarios[i].nome
+                }
+                if(cidade === undefined){
+                    cidade = usuarios[i].cidade
+                }
+                usuarios[i].usuario = usuario
+                usuarios[i].senha = senha
+                usuarios[i].idade = idade
+                usuarios[i].nome = nome
+                usuarios[i].cidade = cidade
+                return usuarios[i]
+            }
+        } 
     }
 
 }

@@ -12,6 +12,21 @@ router.get('/Users', (req,res) => {
     let usuarios = Usuarios.listarUsers()
     res.json({users: usuarios})
 })
+router.post('/alterarUserADM', verificaADM, (req,res) =>{
+    try{
+        const {id,usuario, senha, idade, nome, cidade} = req.body
+        let usuarioAlterado = Usuarios.alterarUser(id,usuario, senha, idade, nome, cidade)
+        if(usuarioAlterado === null){
+            console.log("usuario nao existente")
+            res.status(300).send({excluido: usuarioAlterado})
+        } else {
+            console.log({"usuario alterado: ": usuarioAlterado})
+            res.status(200).send({excluido: usuarioAlterado})
+        }
+    }catch(error){
+        res.status(400).send({erro:error.message})
+    }
+})
 router.get('/', (req,res) => {
     let adm = Usuarios.novoAdmin("adm1","senha1")
     console.log(adm)
@@ -20,9 +35,14 @@ router.get('/', (req,res) => {
 
 router.post('/excluirUser', verificaADM, (req,res) => {
     try{
-        let usuario = Usuarios.excluiUser(req.body.nome)
-        console.log({"usuario excluido: ": usuario})
-        res.status(200).send({excluido: usuario})
+        let usuarioExcluido = Usuarios.excluiUser(req.body.nome)
+        if(usuarioExcluido === null){
+            console.log("usuario nao existente")
+            res.status(300).send({excluido: usuarioExcluido})
+        } else {
+            console.log({"usuario excluido: ": usuarioExcluido})
+            res.status(200).send({excluido: usuarioExcluido})
+        }
     }catch(error){
         res.status(400).send({erro:error.message})
     }
@@ -31,6 +51,7 @@ router.post('/excluirUser', verificaADM, (req,res) => {
 router.post('/login', verificaUser, (req,res) => {
     res.json({logado: true})
 })
+
 router.post('/cadastroAdm', verificaADM, (req,res) => {
     console.log('adm autorizado');
     try{
