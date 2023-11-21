@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var Usuarios = require('../usuarios');
-const { verificaUser,verificaADM } = require('../controleAcesso');
+const { verificaUser,verificaADM, verificaTipo } = require('../controleAcesso');
 router.use(express.json());
 
 
@@ -12,20 +12,8 @@ router.get('/Users', (req,res) => {
     let usuarios = Usuarios.listarUsers()
     res.json({users: usuarios})
 })
-router.post('/alterarUserADM', verificaADM, (req,res) =>{
-    try{
-        const {id,usuario, senha, idade, nome, cidade} = req.body
-        let usuarioAlterado = Usuarios.alterarUser(id,usuario, senha, idade, nome, cidade)
-        if(usuarioAlterado === null){
-            console.log("usuario nao existente")
-            res.status(300).send({excluido: usuarioAlterado})
-        } else {
-            console.log({"usuario alterado: ": usuarioAlterado})
-            res.status(200).send({excluido: usuarioAlterado})
-        }
-    }catch(error){
-        res.status(400).send({erro:error.message})
-    }
+router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
+    res.json("alterado")
 })
 router.get('/', (req,res) => {
     let adm = Usuarios.novoAdmin("adm1","senha1")
@@ -33,9 +21,10 @@ router.get('/', (req,res) => {
     res.json({mensagem: adm})
 })
 
-router.post('/excluirUser', verificaADM, (req,res) => {
+router.delete('/excluirUser/:nome', verificaADM, (req,res) => {
     try{
-        let usuarioExcluido = Usuarios.excluiUser(req.body.nome)
+        const {nome} = req.params
+        let usuarioExcluido = Usuarios.excluiUser(nome)
         if(usuarioExcluido === null){
             console.log("usuario nao existente")
             res.status(300).send({excluido: usuarioExcluido})
