@@ -2,36 +2,46 @@ var usuarios = []
 var admin = []
 
 module.exports = {
-    novoUsuario: function(usuario,senha,idade,nome,cidade){
-        if(usuario === undefined || senha === undefined || idade === undefined || nome === undefined || cidade === undefined){
-            return null
+    novoUsuario: function(usuario, senha, idade, nome, cidade) {
+        if (usuario && senha && idade && nome && cidade) {
+            const novoUsuario = {
+                usuario: usuario,
+                senha: senha,
+                idade: idade,
+                nome: nome,
+                cidade: cidade,
+                roles: "user"
+            };
+            usuarios.push(novoUsuario);
+            return novoUsuario;
         } else {
-            const NovoUsuario = [usuario,senha,idade,nome,cidade]
-            usuarios.push(NovoUsuario)
-            return NovoUsuario
+            return null;
         }
     },
-    novoAdmin: function(usuario,senha){
-        novoAdm = [usuario,senha,"adm"]
-        admin.push(novoAdm)
-        console.log("adm criado")
-        return novoAdm
+    novoAdmin: function(usuario, senha) {
+        const novoAdm = {
+            usuario: usuario,
+            senha: senha,
+            roles: "adm"
+        };
+        admin.push(novoAdm);
+        return novoAdm;
     },
-    getUsuario: function(usuario,senha){
+    getUsuario: function(usuario, senha) {
         for (var i = 0; i < usuarios.length; i++) {
-            if (usuarios[i][0] === usuario && usuarios[i][1] === senha) {
-                return usuarios[i]
+            if (usuarios[i].usuario === usuario && usuarios[i].senha === senha) {
+                return usuarios[i];
             }
         }
-        return null
+        return null;
     },
-    getADM: function(usuario,senha){
-        for (var i = 0; i < usuarios.length; i++) {
-            if (admin[i][0] === usuario && admin[i][1] === senha) {
-                return admin[i]
+    getADM: function(usuario, senha) {
+        for (var i = 0; i < admin.length; i++) {
+            if (admin[i].usuario === usuario && admin[i].senha === senha) {
+                return admin[i];
             }
         }
-        return null
+        return null;
     }
 
 }

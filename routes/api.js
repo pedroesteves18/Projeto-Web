@@ -11,24 +11,21 @@ router.get('/install', (req,res)=> {
 
 router.get('/', (req,res) => {
     let adm = Usuarios.novoAdmin("adm1","senha1")
+    console.log(adm)
     res.json({mensagem: adm})
 })
 
 router.post('/login', verificaUser, (req,res) => {
-    try{
-        verificaUser
-    }
-    catch (error) {
-        res.status(400).send({ erro: error.message });
-    }
+    res.json({logado: true})
 })
 router.post('/cadastroAdm', verificaADM, (req,res) => {
-    try {
-        const { usuario, senha } = req.body;
-        let admin = Usuarios.novoAdmin(usuario, senha);
-        res.status(200).send({ mensagem: admin });
-    } catch (error) {
-        res.status(400).send({ erro: error.message });
+    console.log('adm autorizado');
+    try{
+        const {usuario,senha} = req.body
+        let admin = Usuarios.novoAdmin(usuario,senha)
+        res.status(200).send({mensagem: admin})
+    }catch(error){
+        res.status(400).send({erro: error.message})
     }
 })
 router.post('/cadastroUser', (req,res) => {
