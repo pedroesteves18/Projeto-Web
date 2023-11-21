@@ -14,6 +14,7 @@ module.exports = {
     novoAdmin: function(usuario,senha){
         novoAdm = [usuario,senha,"adm"]
         admin.push(novoAdm)
+        console.log("adm criado")
         return novoAdm
     },
     getUsuario: function(usuario,senha){

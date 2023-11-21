@@ -16,19 +16,19 @@ router.get('/', (req,res) => {
 
 router.post('/login', verificaUser, (req,res) => {
     try{
-
+        verificaUser
     }
     catch (error) {
         res.status(400).send({ erro: error.message });
     }
 })
 router.post('/cadastroAdm', verificaADM, (req,res) => {
-    try{
-        const {usuario,senha} = req.body
-        let admin = Usuarios.novoAdmin(usuario,senha)
-        res.status(200).send({mensagem: admin})
-    }catch(error){
-        res.status(400).send({erro: error.message})
+    try {
+        const { usuario, senha } = req.body;
+        let admin = Usuarios.novoAdmin(usuario, senha);
+        res.status(200).send({ mensagem: admin });
+    } catch (error) {
+        res.status(400).send({ erro: error.message });
     }
 })
 router.post('/cadastroUser', (req,res) => {
