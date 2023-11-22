@@ -15,6 +15,7 @@ router.get('/Users', (req,res) => {
 router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
     res.json("alterado")
 })
+
 router.get('/', (req,res) => {
     let adm = Usuarios.novoAdmin("adm1","senha1")
     console.log(adm)
@@ -62,13 +63,5 @@ router.post('/cadastroUser', (req,res) => {
 
 })
 
-router.put('/:id', (req,res) => {
-
-    res.json({mensagem: ""})
-})
-
-router.delete('/:id', (req,res) => {
-    res.json({mensage: ""})
-})
 
 module.exports = router;
