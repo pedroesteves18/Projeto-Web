@@ -4,10 +4,6 @@ var Usuarios = require('../usuarios');
 const { verificaUser,verificaADM, verificaTipo } = require('../controleAcesso');
 router.use(express.json());
 
-
-router.get('/install', (req,res)=> {
-    res.json({mensagem: "discos"})
-})
 router.get('/Users', (req,res) => {
     let usuarios = Usuarios.listarUsers()
     res.json({users: usuarios})
