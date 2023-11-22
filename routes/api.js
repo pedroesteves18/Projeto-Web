@@ -21,10 +21,10 @@ router.get('/', (req,res) => {
     res.json({mensagem: adm})
 })
 
-router.delete('/excluirUser/:nome', verificaADM, (req,res) => {
+router.delete('/excluirUser/:id', verificaADM, (req,res) => {
     try{
-        const {nome} = req.params
-        let usuarioExcluido = Usuarios.excluiUser(nome)
+        const id = parseInt(req.params.id)
+        let usuarioExcluido = Usuarios.excluiUser(id)
         if(usuarioExcluido === null){
             console.log("usuario nao existente")
             res.status(300).send({excluido: usuarioExcluido})

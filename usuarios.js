@@ -57,13 +57,14 @@ module.exports = {
         }
         return null;
     },
-    excluiUser: function(nome){
+    excluiUser: function(id){
         for(var i =0; i<usuarios.length;i++){
-            if(usuarios[i].nome === nome){
+            if(usuarios[i].id === id){
                 let usuarioExcluido = usuarios.splice(i,1)
                 return usuarioExcluido
             }
         }
+        return null
     },
     listarUsers: function(){
         let usuariosImp= [] 
