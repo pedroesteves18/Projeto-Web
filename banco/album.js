@@ -1,28 +1,19 @@
-const Sequelize = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('./db');
-const Banda = require('./banda');
 
 const Album = sequelize.define('Album', {
-    id: { 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+    genero: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     titulo: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     anoLancamento: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
-    genero: {
-        type: Sequelize.STRING,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
-});
-
-Album.belongsTo(Banda);
-Banda.hasMany(Album);
+  });
 
 module.exports = Album;

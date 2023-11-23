@@ -1,20 +1,16 @@
-const Sequelize = require('sequelize')
-const database = require('./db')
+const { DataTypes } = require('sequelize');
+const sequelize = require('./db');
 
-const Banda = database.define('Banda', {
-    id:{ 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-    nome: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    paisOrigem: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-})
+const Banda = sequelize.define('Banda', {
 
-  module.exports = Banda;
+  nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  paisOrigem: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
+
+module.exports = Banda;

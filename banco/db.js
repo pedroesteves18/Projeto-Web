@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-require('dotenv').config();
+const { Sequelize } = require('sequelize');
+require('dotenv').config(); 
 
 const sequelize = new Sequelize({
   host: process.env.DB_HOST,
@@ -12,12 +12,12 @@ const sequelize = new Sequelize({
 async function testConnection() {
   try {
     await sequelize.authenticate();
-    console.log('conectado ao banco');
+    console.log('conectado.');
   } catch (error) {
     console.error('erro ao conectar:', error);
   }
 }
 
-testConnection(); 
+testConnection();
 
 module.exports = sequelize;

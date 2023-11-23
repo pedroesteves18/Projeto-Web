@@ -8,6 +8,7 @@ router.get('/Users', (req,res) => {
     let usuarios = Usuarios.listarUsers()
     res.json({users: usuarios})
 })
+
 router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
     res.json("alterado")
 })
@@ -48,6 +49,7 @@ router.post('/cadastroAdm', verificaADM, (req,res) => {
         res.status(400).send({erro: error.message})
     }
 })
+
 router.post('/cadastroUser', (req,res) => {
     try{
         const {usuario,senha,idade,nome,cidade} = req.body
