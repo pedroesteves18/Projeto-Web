@@ -8,27 +8,45 @@ const Banda = require('../banco/banda')
 const Album = require('../banco/album')
 router.use(express.json());
 
-router.get('/musicas' ,verificaLogado, async (req,res)  => {
+router.get('/musicas/:limite/:pagina' ,verificaLogado, async (req,res)  => {
+        const limite = parseInt(req.params.limite)
+        const pagina = parseInt(req.params.pagina)
         try{
-            const musicas = await Musica.findAll()
+            const itensMostrar = (pagina - 1) * limite;
+            const musicas = await Musica.findAll({
+                    limit: limite,
+                    offset: itensMostrar
+            })
             res.json(musicas)
         }catch(error){
             res.status(400).send(error)
         }
 })
 
-router.get('/bandas', verificaLogado, async (req,res) =>{
+router.get('/bandas/:limite/:pagina', verificaLogado, async (req,res) =>{
+    const limite = parseInt(req.params.limite)
+    const pagina = parseInt(req.params.pagina)
     try{
-        const bandas = await Banda.findAll()
+        const itensMostrar = (pagina - 1) * limite;
+        const bandas = await Banda.findAll({
+            limit: limite,
+            offset: itensMostrar
+    })
         res.json(bandas)
     }catch(error){
         res.status(400).send(error)
     }
 })
 
-router.get('/albuns', verificaLogado, async (req,res) =>{
+router.get('/albuns/:limite/:pagina', verificaLogado, async (req,res) =>{
+    const limite = parseInt(req.params.limite)
+    const pagina = parseInt(req.params.pagina)
     try{
-        const albuns = await Album.findAll()
+        const itensMostrar = (pagina - 1) * limite;
+        const albuns = await Album.findAll({
+            limit: limite,
+            offset: itensMostrar
+    })
         res.json(albuns)
     }catch(error){
         res.status(400).send(error)
@@ -43,7 +61,7 @@ router.get('/musica/:id', verificaLogado, async (req,res) =>{
                 where: {
                     id: {
                         [Op.eq]: id
-                    }
+                    },
                 }
             })
             res.json(musica)
@@ -75,11 +93,17 @@ router.get('/album/:id', verificaLogado, async (req,res) =>{
     }
 })
 
-router.get('/album/:id/musicas', verificaLogado, async (req,res) =>{
+router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res) =>{
     const id = parseInt(req.params.id)
+    const limite = parseInt(req.params.limite)
+    const pagina = parseInt(req.params.pagina)
     if(!isNaN(id)){
         try{
+            const itensMostrar = (pagina - 1) * limite;
             const musicas = await Musica.findAll({
+                limit: limite,
+                offset: itensMostrar},
+            {
                 where: {
                     Albumid: {
                         [Op.eq]: id
@@ -95,12 +119,18 @@ router.get('/album/:id/musicas', verificaLogado, async (req,res) =>{
     }
 })
 
-router.get('/banda/:id/musicas', verificaLogado, async(req,res)=>{
+router.get('/banda/:id/musicas/:limite/:pagina', verificaLogado, async(req,res)=>{
     const id = parseInt(req.params.id);
+    const limite = parseInt(req.params.limite)
+    const pagina = parseInt(req.params.pagina)
     if(!isNaN(id)){
         try {
-            const banda = await Banda.findByPk(id, {
+            const itensMostrar = (pagina - 1) * limite;
+            const banda = await Banda.findByPk(id,
+            {
               include: {
+                limit: limite,
+                offset: itensMostrar, 
                 model: Album,
                 include: Musica,
               },
@@ -133,13 +163,19 @@ router.get('/banda/:id/musicas', verificaLogado, async(req,res)=>{
     ;
 })
 
-router.get('/banda/:id/albuns', verificaLogado, async(req,res)=>{
+router.get('/banda/:id/albuns/:limite/:pagina', verificaLogado, async(req,res)=>{
     const id = parseInt(req.params.id);
+    const limite = parseInt(req.params.limite)
+    const pagina = parseInt(req.params.pagina)
     if(!isNaN(id)){
         try {
-            const banda = await Banda.findByPk(id, {
+            const itensMostrar = (pagina - 1) * limite;
+            const banda = await Banda.findByPk(id,
+            {
               include: {
                 model: Album,
+                limit: limite,
+                offset: itensMostrar, 
               },
             });
         

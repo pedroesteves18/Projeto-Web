@@ -111,5 +111,58 @@ router.delete('/excluir/musica/:id', verificaADM, async(req,res) => {
     }
 })
 
+router.put('/alterar/musica/:id', verificaADM, async (req,res) => {
+    try{
+        const musicaId = parseInt(req.params.id)
+        const musica = await Musica.findByPk(musicaId)
+        if(!musica){
+            res.status(500).json({error:"musica nao encontrada"})
+        }
+        const musicaAlterada = await Musica.update({duracao: req.body.duracao,nome: req.body.nome},{
+            where:{
+                id: musicaId
+            }
+        })
+        res.status(200).json({musicaAlterada: musicaAlterada})
+    }catch(error){
+        res.status(500).json({error: 'erro ao alterar a musica'})
+    }
+})
+
+router.put('/alterar/album/:id', verificaADM, async (req,res) => {
+    try{
+        const albumId = parseInt(req.params.id)
+        const album = await Album.findByPk(albumId)
+        if(!album){
+            res.status(500).json({error:"album nao encontrado"})
+        }
+        const albumAlterado = await Album.update({genero: req.body.genero,titulo: req.body.titulo},{
+            where:{
+                id: albumId
+            }
+        })
+        res.status(200).json({albumAlterado: albumAlterado})
+    }catch(error){
+        res.status(500).json({error: 'erro ao alterar o album'})
+    }
+})
+
+router.put('/alterar/banda/:id', verificaADM, async (req,res) => {
+    try{
+        const bandaId = parseInt(req.params.id)
+        const banda = await Album.findByPk(bandaId)
+        if(!banda){
+            res.status(500).json({error:"banda nao encontrada"})
+        }
+        const bandaAlterada = await Banda.update({nome: req.body.nome,paisOrigem: req.body.paisOrigem},{
+            where:{
+                id: bandaId
+            }
+        })
+        res.status(200).json({bandaAlterada: bandaAlterada})
+    }catch(error){
+        res.status(500).json({error: 'erro ao alterar a banda'})
+    }
+})
 
 module.exports = router
