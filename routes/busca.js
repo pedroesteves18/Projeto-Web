@@ -151,7 +151,7 @@ router.get('/banda/:id/albuns', verificaLogado, async(req,res)=>{
             banda.Albums.forEach(album => {
                 albuns.push({
                   id: album.id,
-                  titulo: album.nome,
+                  titulo: album.titulo,
                   genero: album.genero,
                   anoLancamento: album.anoLancamento
                 });

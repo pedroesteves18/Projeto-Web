@@ -15,8 +15,9 @@ router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
 
 router.get('/', (req,res) => {
     let adm = Usuarios.novoAdmin("adm1","senha1")
+    let user = Usuarios.novoUsuario("user1","senha2",1,"pedro","cp")
     console.log(adm)
-    res.json({mensagem: adm})
+    res.json({mensagem: adm,mensagem: user})
 })
 
 router.delete('/excluirUser/:id', verificaADM, (req,res) => {

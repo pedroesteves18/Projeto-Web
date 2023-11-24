@@ -4,12 +4,14 @@ const port = 3000
 const apiRouter = require('./routes/api');
 const bancoInstall = require('./routes/instalacao')
 const buscaRouter = require('./routes/busca')
+const apiBanco = require('./routes/apiBanco')
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/instalacao', bancoInstall)
 app.use('/api', apiRouter);
 app.use('/logado', buscaRouter);
+app.use('/apiBanco', apiBanco)
 const sequelize = require('./banco/db');
 
 sequelize.sync({ force: false }).then(() => {
