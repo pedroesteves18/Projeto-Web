@@ -16,4 +16,12 @@ const Album = sequelize.define('Album', {
     }
   });
 
+  const Banda = require('./banda');
+  const Musica = require('./musica');
+  
+  Banda.hasMany(Album, { onDelete: 'CASCADE'})
+  Album.belongsTo(Banda)
+  Album.hasMany(Musica, { onDelete: 'CASCADE' });
+  Musica.belongsTo(Album);
+
 module.exports = Album;

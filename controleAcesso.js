@@ -83,7 +83,7 @@ module.exports= {
                 return res.status(403).json({ mensagem: "Acesso negado. Token não fornecido." });
             }
             let decodedToken = jwt.verify(token, SECRET_KEY);
-            if(decodedToken.roles === 'admin' || decodedToken.roles === 'user'){
+            if(decodedToken.roles === 'adm' || decodedToken.roles === 'user'){
                 next()
             } else{
                 res.status(403).json({ mensagem: "Acesso negado. Você não esta autenticado." });
