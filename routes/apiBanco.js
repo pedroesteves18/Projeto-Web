@@ -57,4 +57,59 @@ router.post('/inserir/album/:id/musica', verificaADM,async (req,res) => {
     }
 })
 
+router.delete('/excluir/banda/:id', verificaADM,async(req,res) => {
+    try{
+        const bandaId = parseInt(req.params.id)
+        const banda = await Banda.findByPk(bandaId)
+        if(!banda){
+            res.status(500).json({error: "banda nao encontrada"})
+        }
+        const bandaExcluida = await Banda.destroy({
+            where: {
+                id: bandaId
+            }
+        })
+        res.status(200).json({bandaExcluida: bandaExcluida})
+    }catch(error){
+        res.status(500).json({error: 'erro ao excluir a banda'})
+    }
+})
+
+router.delete('/excluir/album/:id', verificaADM, async(req,res) => {
+    try{
+        const albumId = parseInt(req.params.id)
+        const album = await Album.findByPk(albumId)
+        if(!album){
+            res.status(500).json({error:"album nao encontrado"})
+        }
+        const albumExcluido = await Album.destroy({
+            where:{
+                id: albumId
+            }
+        })
+        res.status(200).json({albumExcluido: albumExcluido})
+    }catch(error){
+        res.status(500).json({error: 'erro ao excluir o album'})
+    }
+})
+
+router.delete('/excluir/musica/:id', verificaADM, async(req,res) => {
+    try{
+        const musicaId = parseInt(req.params.id)
+        const musica = await Musica.findByPk(musicaId)
+        if(!musica){
+            res.status(500).json({error:"musica nao encontrada"})
+        }
+        const musicaExcluida = await Musica.destroy({
+            where:{
+                id: musicaId
+            }
+        })
+        res.status(200).json({musicaExcluida: musicaExcluida})
+    }catch(error){
+        res.status(500).json({error: 'erro ao excluir a musica'})
+    }
+})
+
+
 module.exports = router
