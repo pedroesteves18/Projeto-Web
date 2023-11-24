@@ -9,6 +9,7 @@ const Album = require('../banco/album')
 router.use(express.json());
 
 router.get('/musicas/:limite/:pagina' ,verificaLogado, async (req,res)  => {
+    // #swagger.summary = 'usuario logado lista musicas por paginacao'
         const limite = parseInt(req.params.limite)
         const pagina = parseInt(req.params.pagina)
         try{
@@ -24,6 +25,7 @@ router.get('/musicas/:limite/:pagina' ,verificaLogado, async (req,res)  => {
 })
 
 router.get('/bandas/:limite/:pagina', verificaLogado, async (req,res) =>{
+    // #swagger.summary = 'usuario logado lista bandas por paginacao'
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
     try{
@@ -39,6 +41,7 @@ router.get('/bandas/:limite/:pagina', verificaLogado, async (req,res) =>{
 })
 
 router.get('/albuns/:limite/:pagina', verificaLogado, async (req,res) =>{
+    // #swagger.summary = 'usuario logado lista albuns por paginacao'
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
     try{
@@ -54,6 +57,7 @@ router.get('/albuns/:limite/:pagina', verificaLogado, async (req,res) =>{
 })
 
 router.get('/musica/:id', verificaLogado, async (req,res) =>{
+    // #swagger.summary = 'usuario logado procura musica por ID'
     const id = parseInt(req.params.id)
     if(!isNaN(id)){
         try{
@@ -74,6 +78,7 @@ router.get('/musica/:id', verificaLogado, async (req,res) =>{
 })
 
 router.get('/album/:id', verificaLogado, async (req,res) =>{
+    // #swagger.summary = 'usuario logado procura album por ID'
     const id = parseInt(req.params.id)
     if(!isNaN(id)){
         try{
@@ -94,6 +99,7 @@ router.get('/album/:id', verificaLogado, async (req,res) =>{
 })
 
 router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res) =>{
+    // #swagger.summary = 'usuario logado procura musica por ID de album com paginacao'
     const id = parseInt(req.params.id)
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
@@ -120,6 +126,7 @@ router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res)
 })
 
 router.get('/banda/:id/musicas/:limite/:pagina', verificaLogado, async(req,res)=>{
+        // #swagger.summary = 'usuario logado procura musica por ID de banda com paginacao'
     const id = parseInt(req.params.id);
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
@@ -164,6 +171,7 @@ router.get('/banda/:id/musicas/:limite/:pagina', verificaLogado, async(req,res)=
 })
 
 router.get('/banda/:id/albuns/:limite/:pagina', verificaLogado, async(req,res)=>{
+        // #swagger.summary = 'usuario logado procura albuns por ID de banda com paginacao'
     const id = parseInt(req.params.id);
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)

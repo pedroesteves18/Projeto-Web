@@ -9,6 +9,7 @@ const Album = require('../banco/album')
 router.use(express.json());
 
 router.post('/inserir/banda', verificaADM ,async (req,res) => {
+        // #swagger.summary = 'ADM Insere uma banda'
     try {
         const { nome, paisOrigem } = req.body;
         const novaBanda = await Banda.create({ nome, paisOrigem })
@@ -20,6 +21,7 @@ router.post('/inserir/banda', verificaADM ,async (req,res) => {
 })
 
 router.post('/inserir/album/:bandaId', verificaADM ,async (req,res) => {
+    // #swagger.summary = 'ADM Insere um album em uma banda'
     try{
         const bandaId = parseInt(req.params.bandaId)
         const banda = await Banda.findByPk(bandaId)
@@ -37,6 +39,7 @@ router.post('/inserir/album/:bandaId', verificaADM ,async (req,res) => {
 })
 
 router.post('/inserir/album/:id/musica', verificaADM,async (req,res) => {
+    // #swagger.summary = 'ADM Insere uma musica em um album'
     try{
         const albumId = parseInt(req.params.id)
         const album = await Album.findByPk(albumId)
@@ -58,6 +61,7 @@ router.post('/inserir/album/:id/musica', verificaADM,async (req,res) => {
 })
 
 router.delete('/excluir/banda/:id', verificaADM,async(req,res) => {
+    // #swagger.summary = 'ADM exclui uma banda'
     try{
         const bandaId = parseInt(req.params.id)
         const banda = await Banda.findByPk(bandaId)
@@ -76,6 +80,7 @@ router.delete('/excluir/banda/:id', verificaADM,async(req,res) => {
 })
 
 router.delete('/excluir/album/:id', verificaADM, async(req,res) => {
+    // #swagger.summary = 'ADM Insere um album'
     try{
         const albumId = parseInt(req.params.id)
         const album = await Album.findByPk(albumId)
@@ -94,6 +99,7 @@ router.delete('/excluir/album/:id', verificaADM, async(req,res) => {
 })
 
 router.delete('/excluir/musica/:id', verificaADM, async(req,res) => {
+    // #swagger.summary = 'ADM exclui uma musica'
     try{
         const musicaId = parseInt(req.params.id)
         const musica = await Musica.findByPk(musicaId)
@@ -112,6 +118,7 @@ router.delete('/excluir/musica/:id', verificaADM, async(req,res) => {
 })
 
 router.put('/alterar/musica/:id', verificaADM, async (req,res) => {
+    // #swagger.summary = 'ADM altera uma musica'
     try{
         const musicaId = parseInt(req.params.id)
         const musica = await Musica.findByPk(musicaId)
@@ -130,6 +137,7 @@ router.put('/alterar/musica/:id', verificaADM, async (req,res) => {
 })
 
 router.put('/alterar/album/:id', verificaADM, async (req,res) => {
+    // #swagger.summary = 'ADM altera um album'
     try{
         const albumId = parseInt(req.params.id)
         const album = await Album.findByPk(albumId)
@@ -148,6 +156,7 @@ router.put('/alterar/album/:id', verificaADM, async (req,res) => {
 })
 
 router.put('/alterar/banda/:id', verificaADM, async (req,res) => {
+    // #swagger.summary = 'ADM altera uma banda'
     try{
         const bandaId = parseInt(req.params.id)
         const banda = await Album.findByPk(bandaId)

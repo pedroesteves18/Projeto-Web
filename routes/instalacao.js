@@ -9,6 +9,8 @@ const banda = require('../banco/banda')
 const musica = require('../banco/musica')
 
 router.get('/', async (req,res)=> {
+    // #swagger.summary = 'instala banco de dados'
+
     try{
         banda.create({
             nome: "Sarcofago",
@@ -140,7 +142,7 @@ router.get('/', async (req,res)=> {
                 })
         
                 musica.create({
-                    nome: "I Cum Blood",
+                    nome: "Hammer Smashed Face",
                     duracao: 279,
                     AlbumId: Tomb.id
                 })

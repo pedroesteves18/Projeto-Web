@@ -5,22 +5,24 @@ const { verificaUser,verificaADM, verificaTipo } = require('../controleAcesso');
 router.use(express.json());
 
 router.get('/Users', (req,res) => {
+    // #swagger.summary = 'Lista todos os USUARIOS cadastrados'
     let usuarios = Usuarios.listarUsers()
     res.json({users: usuarios})
 })
 
 router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
+    // #swagger.summary = 'Um ADM altera um usuario cadastrado'
     res.json("alterado")
 })
 
-router.get('/', (req,res) => {
+router.get('/admin', (req,res) => {
+    // #swagger.summary = 'rota que gera um ADM'
     let adm = Usuarios.novoAdmin("adm1","senha1")
-    let user = Usuarios.novoUsuario("user1","senha2",1,"pedro","cp")
-    console.log(adm)
     res.json({mensagem: adm,mensagem: user})
 })
 
 router.delete('/excluirUser/:id', verificaADM, (req,res) => {
+        // #swagger.summary = 'um ADM exclui um usuario cadastrado'
     try{
         const id = parseInt(req.params.id)
         let usuarioExcluido = Usuarios.excluiUser(id)
@@ -37,10 +39,12 @@ router.delete('/excluirUser/:id', verificaADM, (req,res) => {
 })
 
 router.post('/login', verificaUser, (req,res) => {
+        // #swagger.summary = 'Loga usando um usuario e senha previamente cadastrados'
     res.json({logado: true})
 })
 
 router.post('/cadastroAdm', verificaADM, (req,res) => {
+        // #swagger.summary = 'Um ADM cadastra outro'
     console.log('adm autorizado');
     try{
         const {usuario,senha} = req.body
@@ -52,6 +56,7 @@ router.post('/cadastroAdm', verificaADM, (req,res) => {
 })
 
 router.post('/cadastroUser', (req,res) => {
+        // #swagger.summary = 'O usuario pode cadastrar um USER comum'
     try{
         const {usuario,senha,idade,nome,cidade} = req.body
         let user = Usuarios.novoUsuario(usuario,senha,idade,nome,cidade)
