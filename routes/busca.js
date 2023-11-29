@@ -12,6 +12,10 @@ router.get('/musicas/:limite/:pagina' ,verificaLogado, async (req,res)  => {
     // #swagger.summary = 'usuario logado lista musicas por paginacao'
         const limite = parseInt(req.params.limite)
         const pagina = parseInt(req.params.pagina)
+        if ((limite !== 30) && (limite !== 10) && (limite !== 5)) {
+            res.status(400).json({ error: "valor limite inválido!" });
+            return;
+        }
         try{
             const itensMostrar = (pagina - 1) * limite;
             const musicas = await Musica.findAll({
@@ -28,6 +32,10 @@ router.get('/bandas/:limite/:pagina', verificaLogado, async (req,res) =>{
     // #swagger.summary = 'usuario logado lista bandas por paginacao'
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
+    if ((limite !== 30) && (limite !== 10) && (limite !== 5)) {
+        res.status(400).json({ error: "valor limite inválido!" });
+        return;
+    }
     try{
         const itensMostrar = (pagina - 1) * limite;
         const bandas = await Banda.findAll({
@@ -44,6 +52,10 @@ router.get('/albuns/:limite/:pagina', verificaLogado, async (req,res) =>{
     // #swagger.summary = 'usuario logado lista albuns por paginacao'
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
+    if ((limite !== 30) && (limite !== 10) && (limite !== 5)) {
+        res.status(400).json({ error: "valor limite inválido!" });
+        return;
+    }
     try{
         const itensMostrar = (pagina - 1) * limite;
         const albuns = await Album.findAll({
@@ -124,6 +136,10 @@ router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res)
     const id = parseInt(req.params.id)
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
+    if ((limite !== 30) && (limite !== 10) && (limite !== 5)) {
+        res.status(400).json({ error: "valor limite inválido!" });
+        return;
+    }
     if(!isNaN(id)){
         try{
             const itensMostrar = (pagina - 1) * limite;
@@ -136,7 +152,7 @@ router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res)
               },
             });
             if (!album) {
-              return res.status(404).json({ error: 'Banda não encontrada.' });
+                res.status(404).json({ error: 'Banda não encontrada.' });
             }
             const musicas = [];
         
@@ -162,6 +178,10 @@ router.get('/banda/:id/musicas/:limite/:pagina', verificaLogado, async(req,res)=
     const id = parseInt(req.params.id);
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
+    if ((limite !== 30) && (limite !== 10) && (limite !== 5)) {
+        res.status(400).json({ error: "valor limite inválido!" });
+        return;
+    }
     if(!isNaN(id)){
         try {
             const itensMostrar = (pagina - 1) * limite;
@@ -176,7 +196,7 @@ router.get('/banda/:id/musicas/:limite/:pagina', verificaLogado, async(req,res)=
             });
         
             if (!banda) {
-              return res.status(404).json({ error: 'Banda não encontrada.' });
+                res.status(404).json({ error: 'Banda não encontrada.' });
             }
         
             const musicas = [];
@@ -207,6 +227,10 @@ router.get('/banda/:id/albuns/:limite/:pagina', verificaLogado, async(req,res)=>
     const id = parseInt(req.params.id);
     const limite = parseInt(req.params.limite)
     const pagina = parseInt(req.params.pagina)
+    if ((limite !== 30) && (limite !== 10) && (limite !== 5)) {
+        res.status(400).json({ error: "valor limite inválido!" });
+        return;
+    }
     if(!isNaN(id)){
         try {
             const itensMostrar = (pagina - 1) * limite;
@@ -220,7 +244,7 @@ router.get('/banda/:id/albuns/:limite/:pagina', verificaLogado, async(req,res)=>
             });
         
             if (!banda) {
-              return res.status(404).json({ error: 'Banda não encontrada.' });
+                res.status(404).json({ error: 'Banda não encontrada.' });
             }
             const albuns = [];
         
