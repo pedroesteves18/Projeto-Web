@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Usuarios = require('./usuarios')
+const Usuarios = require('../model/usuarios')
 const SECRET_KEY = 'segredo';
 module.exports= {
     verificaADM: function(req, res, next) {

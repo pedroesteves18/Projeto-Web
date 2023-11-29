@@ -519,7 +519,7 @@ router.get('/', async (req,res)=> {
                 anoLancamento: 1992,
                 BandaId: Burzum.id,
                 genero: 'Black Metal'
-            }).then((Burzumm) => {
+            }).then((Burzum) => {
                 musica.create({
                     nome: "War",
                     duracao: 150,

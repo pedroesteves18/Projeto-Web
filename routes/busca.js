@@ -1,7 +1,7 @@
 
 var express = require('express')
 var router = express.Router()
-const { verificaUser,verificaADM, verificaTipo, verificaLogado } = require('../controleAcesso');
+const { verificaLogado } = require('../auth/controleAcesso');
 const { Op } = require('sequelize');
 const Musica = require('../banco/musica')
 const Banda = require('../banco/banda')
@@ -98,6 +98,27 @@ router.get('/album/:id', verificaLogado, async (req,res) =>{
     }
 })
 
+router.get('/banda/:id', verificaLogado, async (req,res) =>{
+    // #swagger.summary = 'usuario logado procura album por ID'
+    const id = parseInt(req.params.id)
+    if(!isNaN(id)){
+        try{
+            const banda = await Banda.findOne({
+                where: {
+                    id: {
+                        [Op.eq]: id
+                    }
+                }
+            })
+            res.json(banda)
+        }catch(error){
+            res.status(400).send(error)
+        }            
+    } else {
+        res.status(400).send({mensagem:"envie um parametro"})
+    }
+})
+
 router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res) =>{
     // #swagger.summary = 'usuario logado procura musica por ID de album com paginacao'
     const id = parseInt(req.params.id)
@@ -106,17 +127,28 @@ router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res)
     if(!isNaN(id)){
         try{
             const itensMostrar = (pagina - 1) * limite;
-            const musicas = await Musica.findAll({
-                limit: limite,
-                offset: itensMostrar},
+            const album = await Album.findByPk(id,
             {
-                where: {
-                    Albumid: {
-                        [Op.eq]: id
-                    }
-                }
-            })
-            res.json(musicas)
+              include: {
+                model: Musica,
+                limit: limite,
+                offset: itensMostrar, 
+              },
+            });
+            if (!album) {
+              return res.status(404).json({ error: 'Banda não encontrada.' });
+            }
+            const musicas = [];
+        
+            album.Musicas.forEach(musica => {
+                musicas.push({
+                  id: musica.id,
+                  nome: musica.nome,
+                  duracao: musica.duracao,
+                });
+            });
+        
+            res.json({banda:album.nome ,musicas: musicas});
         }catch(error){
             res.status(400).send(error)
         }            

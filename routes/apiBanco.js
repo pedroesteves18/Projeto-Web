@@ -1,7 +1,7 @@
 
 var express = require('express')
 var router = express.Router()
-const { verificaUser,verificaADM, verificaTipo, verificaLogado } = require('../controleAcesso');
+const { verificaADM } = require('../auth/controleAcesso');
 const { Op } = require('sequelize');
 const Musica = require('../banco/musica')
 const Banda = require('../banco/banda')

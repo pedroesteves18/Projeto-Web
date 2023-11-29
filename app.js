@@ -16,7 +16,7 @@ const sequelize = require('./banco/db');
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_doc.json')
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 sequelize.sync({ force: false }).then(() => {
   console.log('Modelos sincronizados com o banco de dados.');

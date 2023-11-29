@@ -2,7 +2,7 @@ var usuarios = []
 var admin = []
 var idAdm = 0
 var idUser = 0
-var idLogado = 0
+
 module.exports = {
     novoUsuario: function(usuario, senha, idade, nome, cidade) {
         const UserExiste  = usuarios.find(user=> user.usuario === usuario || user.senha === senha)

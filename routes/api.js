@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
-var Usuarios = require('../usuarios');
-const { verificaUser,verificaADM, verificaTipo } = require('../controleAcesso');
+var Usuarios = require('../model/usuarios');
+const { verificaUser,verificaADM, verificaTipo } = require('../auth/controleAcesso');
 router.use(express.json());
 
 router.get('/Users', (req,res) => {
@@ -18,7 +18,7 @@ router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
 router.get('/admin', (req,res) => {
     // #swagger.summary = 'rota que gera um ADM'
     let adm = Usuarios.novoAdmin("adm1","senha1")
-    res.json({mensagem: adm,mensagem: user})
+    res.json({mensagem: adm})
 })
 
 router.delete('/excluirUser/:id', verificaADM, (req,res) => {
