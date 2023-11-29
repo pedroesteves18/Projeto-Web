@@ -11,7 +11,7 @@
     "http"
   ],
   "paths": {
-    "/Users": {
+    "/api/Users": {
       "get": {
         "summary": "Lista todos os USUARIOS cadastrados",
         "description": "",
@@ -22,7 +22,7 @@
         }
       }
     },
-    "/alterarUser/{id}": {
+    "/api/alterarUser/{id}": {
       "put": {
         "summary": "Um ADM altera um usuario cadastrado",
         "description": "",
@@ -76,7 +76,7 @@
         }
       }
     },
-    "/admin": {
+    "/api/admin": {
       "get": {
         "summary": "rota que gera um ADM",
         "description": "",
@@ -87,7 +87,7 @@
         }
       }
     },
-    "/excluirUser/{id}": {
+    "/api/excluirUser/{id}": {
       "delete": {
         "summary": "um ADM exclui um usuario cadastrado",
         "description": "",
@@ -123,7 +123,7 @@
         }
       }
     },
-    "/login": {
+    "/api/login": {
       "post": {
         "summary": "Loga usando um usuario e senha previamente cadastrados",
         "description": "",
@@ -157,7 +157,7 @@
         }
       }
     },
-    "/cadastroAdm": {
+    "/api/cadastroAdm": {
       "post": {
         "summary": "Um ADM cadastra outro",
         "description": "",
@@ -199,7 +199,7 @@
         }
       }
     },
-    "/cadastroUser": {
+    "/api/cadastroUser": {
       "post": {
         "summary": "O usuario pode cadastrar um USER comum",
         "description": "",
@@ -239,7 +239,7 @@
         }
       }
     },
-    "/inserir/banda": {
+    "/apiBanco/inserir/banda": {
       "post": {
         "summary": "ADM Insere uma banda",
         "description": "",
@@ -278,7 +278,7 @@
         }
       }
     },
-    "/inserir/album/{bandaId}": {
+    "/apiBanco/inserir/album/{bandaId}": {
       "post": {
         "summary": "ADM Insere um album em uma banda",
         "description": "",
@@ -326,7 +326,7 @@
         }
       }
     },
-    "/inserir/album/{id}/musica": {
+    "/apiBanco/inserir/album/{id}/musica": {
       "post": {
         "summary": "ADM Insere uma musica em um album",
         "description": "",
@@ -371,7 +371,7 @@
         }
       }
     },
-    "/excluir/banda/{id}": {
+    "/apiBanco/excluir/banda/{id}": {
       "delete": {
         "summary": "ADM exclui uma banda",
         "description": "",
@@ -401,7 +401,7 @@
         }
       }
     },
-    "/excluir/album/{id}": {
+    "/apiBanco/excluir/album/{id}": {
       "delete": {
         "summary": "ADM Insere um album",
         "description": "",
@@ -431,7 +431,7 @@
         }
       }
     },
-    "/excluir/musica/{id}": {
+    "/apiBanco/excluir/musica/{id}": {
       "delete": {
         "summary": "ADM exclui uma musica",
         "description": "",
@@ -461,7 +461,7 @@
         }
       }
     },
-    "/alterar/musica/{id}": {
+    "/apiBanco/alterar/musica/{id}": {
       "put": {
         "summary": "ADM altera uma musica",
         "description": "",
@@ -506,7 +506,7 @@
         }
       }
     },
-    "/alterar/album/{id}": {
+    "/apiBanco/alterar/album/{id}": {
       "put": {
         "summary": "ADM altera um album",
         "description": "",
@@ -551,7 +551,7 @@
         }
       }
     },
-    "/alterar/banda/{id}": {
+    "/apiBanco/alterar/banda/{id}": {
       "put": {
         "summary": "ADM altera uma banda",
         "description": "",
@@ -596,7 +596,7 @@
         }
       }
     },
-    "/musicas/{limite}/{pagina}": {
+    "/logado/musicas/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado lista musicas por paginacao",
         "description": "",
@@ -632,7 +632,7 @@
         }
       }
     },
-    "/bandas/{limite}/{pagina}": {
+    "/logado/bandas/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado lista bandas por paginacao",
         "description": "",
@@ -668,7 +668,7 @@
         }
       }
     },
-    "/albuns/{limite}/{pagina}": {
+    "/logado/albuns/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado lista albuns por paginacao",
         "description": "",
@@ -704,7 +704,7 @@
         }
       }
     },
-    "/musica/{id}": {
+    "/logado/musica/{id}": {
       "get": {
         "summary": "usuario logado procura musica por ID",
         "description": "",
@@ -734,7 +734,7 @@
         }
       }
     },
-    "/album/{id}": {
+    "/logado/album/{id}": {
       "get": {
         "summary": "usuario logado procura album por ID",
         "description": "",
@@ -764,7 +764,7 @@
         }
       }
     },
-    "/album/{id}/musicas/{limite}/{pagina}": {
+    "/logado/album/{id}/musicas/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado procura musica por ID de album com paginacao",
         "description": "",
@@ -806,7 +806,7 @@
         }
       }
     },
-    "/banda/{id}/musicas/{limite}/{pagina}": {
+    "/logado/banda/{id}/musicas/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado procura musica por ID de banda com paginacao",
         "description": "",
@@ -854,7 +854,7 @@
         }
       }
     },
-    "/banda/{id}/albuns/{limite}/{pagina}": {
+    "/logado/banda/{id}/albuns/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado procura albuns por ID de banda com paginacao",
         "description": "",
@@ -902,7 +902,7 @@
         }
       }
     },
-    "/": {
+    "/instalacao": {
       "get": {
         "summary": "instala banco de dados",
         "description": "",
