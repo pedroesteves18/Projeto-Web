@@ -108,7 +108,7 @@ router.get('/album/:id', verificaLogado, async (req,res) =>{
             res.status(400).send(error)
         }            
     } else {
-        res.status(400).send({mensagem:"envie um parametro"})
+        res.status(400).send({mensagem:"erro ao procurar um album"})
     }
 })
 
@@ -129,7 +129,7 @@ router.get('/banda/:id', verificaLogado, async (req,res) =>{
             res.status(400).send(error)
         }            
     } else {
-        res.status(400).send({mensagem:"envie um parametro"})
+        res.status(400).send({mensagem:"erro ao procurar uma banda"})
     }
 })
 
@@ -171,7 +171,7 @@ router.get('/album/:id/musicas/:limite/:pagina', verificaLogado, async (req,res)
             res.status(400).send(error)
         }            
     } else {
-        res.status(400).send({mensagem:"envie um parametro"})
+        res.status(400).send({mensagem:"erro ao procurar as musicas de um album"})
     }
 })
 
@@ -216,10 +216,10 @@ router.get('/banda/:id/musicas/:limite/:pagina', verificaLogado, async(req,res)=
             res.json({musicas: musicas});
           } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor.' });
+            res.status(500).json({ error: error.message });
           }
     } else {
-        res.status(400).send({mensagem:"envie um parametro correto!"})
+        res.status(400).send({mensagem:"Erro ao procurar as musicas da banda"})
     }
     ;
 })
@@ -262,10 +262,10 @@ router.get('/banda/:id/albuns/:limite/:pagina', verificaLogado, async(req,res)=>
             res.json({banda:banda.nome ,albuns: albuns});
           } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Erro interno do servidor.' });
+            res.status(500).json({ error: error.message });
           }
     } else {
-        res.status(400).send({mensagem:"envie um parametro correto!"})
+        res.status(400).send({mensagem:"erro ao procurar albuns da banda"})
     }
 })
 
@@ -284,11 +284,11 @@ router.get('/MinhaBiblioteca', getBiblioteca,async(req,res) => {
 })
 
 router.delete('/biblioteca/musica/:id', deleteMusica, async(req,res) => {
-
+    // #swagger.summary = 'deleta uma musica da biblioteca do usuario logado'
 })
 
 router.delete('/biblioteca', deleteBiblioteca, async(req,res)=>{
-
+    // #swagger.summary = 'deleta a biblioteca do usuario logado'
 })
 
 module.exports = router

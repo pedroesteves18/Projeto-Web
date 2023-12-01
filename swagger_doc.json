@@ -18,21 +18,18 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
-    "/api/alterarUser/{id}": {
+    "/api/alterarUser": {
       "put": {
         "summary": "Um ADM altera um usuario cadastrado",
         "description": "",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "authorization",
             "in": "header",
@@ -44,6 +41,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "id": {
+                  "example": "any"
+                },
                 "usuario": {
                   "example": "any"
                 },
@@ -72,17 +72,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/api/admin": {
-      "get": {
-        "summary": "rota que gera um ADM",
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -148,8 +137,8 @@
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -216,13 +205,13 @@
                 "senha": {
                   "example": "any"
                 },
-                "idade": {
+                "cidade": {
                   "example": "any"
                 },
                 "nome": {
                   "example": "any"
                 },
-                "cidade": {
+                "idade": {
                   "example": "any"
                 }
               }
@@ -239,7 +228,7 @@
         }
       }
     },
-    "/apiBanco/inserir/banda": {
+    "/apiBanco/banda": {
       "post": {
         "summary": "ADM Insere uma banda",
         "description": "",
@@ -278,7 +267,7 @@
         }
       }
     },
-    "/apiBanco/inserir/album/{bandaId}": {
+    "/apiBanco/album/{bandaId}": {
       "post": {
         "summary": "ADM Insere um album em uma banda",
         "description": "",
@@ -326,7 +315,7 @@
         }
       }
     },
-    "/apiBanco/inserir/album/{id}/musica": {
+    "/apiBanco/album/{id}/musica": {
       "post": {
         "summary": "ADM Insere uma musica em um album",
         "description": "",
@@ -371,7 +360,7 @@
         }
       }
     },
-    "/apiBanco/excluir/banda/{id}": {
+    "/apiBanco/banda/{id}": {
       "delete": {
         "summary": "ADM exclui uma banda",
         "description": "",
@@ -399,9 +388,80 @@
             "description": "Internal Server Error"
           }
         }
+      },
+      "/apiBanco/banda/{:id}": {
+        "summary": "ADM altera uma banda",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                },
+                "paisOrigem": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "/logado/album/{:id}": {
+        "summary": "usuario logado procura album por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
       }
     },
-    "/apiBanco/excluir/album/{id}": {
+    "/apiBanco/album/{id}": {
       "delete": {
         "summary": "ADM Insere um album",
         "description": "",
@@ -429,85 +489,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/apiBanco/excluir/musica/{id}": {
-      "delete": {
-        "summary": "ADM exclui uma musica",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/apiBanco/alterar/musica/{id}": {
-      "put": {
-        "summary": "ADM altera uma musica",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "duracao": {
-                  "example": "any"
-                },
-                "nome": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/apiBanco/alterar/album/{id}": {
-      "put": {
+      },
+      "/apiBanco/album/{:id}": {
         "summary": "ADM altera um album",
         "description": "",
         "parameters": [
@@ -549,11 +532,67 @@
             "description": "Internal Server Error"
           }
         }
+      },
+      "/logado/album/{:id}": {
+        "summary": "usuario logado procura album por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
       }
     },
-    "/apiBanco/alterar/banda/{id}": {
-      "put": {
-        "summary": "ADM altera uma banda",
+    "/logado/musica/{id}": {
+      "delete": {
+        "summary": "ADM exclui uma musica",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "/apiBanco/musica/{:id}": {
+        "summary": "ADM altera uma musica",
         "description": "",
         "parameters": [
           {
@@ -573,10 +612,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "nome": {
+                "duracao": {
                   "example": "any"
                 },
-                "paisOrigem": {
+                "nome": {
                   "example": "any"
                 }
               }
@@ -592,6 +631,34 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      },
+      "/logado/musica/{:id}": {
+        "summary": "usuario logado procura musica por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }
@@ -704,66 +771,6 @@
         }
       }
     },
-    "/logado/musica/{id}": {
-      "get": {
-        "summary": "usuario logado procura musica por ID",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
-    "/logado/album/{id}": {
-      "get": {
-        "summary": "usuario logado procura album por ID",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
     "/logado/album/{id}/musicas/{limite}/{pagina}": {
       "get": {
         "summary": "usuario logado procura musica por ID de album com paginacao",
@@ -802,6 +809,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -898,6 +908,154 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/logado/criarBiblioteca": {
+      "post": {
+        "summary": "cria uma biblioteca para o usuario logado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/logado/biblioteca/musica/{id}": {
+      "post": {
+        "summary": "adiciona uma musica na biblioteca para o usuario logado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "summary": "deleta uma musica da biblioteca do usuario logado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "300": {
+            "description": "Multiple Choices"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/logado/MinhaBiblioteca": {
+      "get": {
+        "summary": "mostra a biblioteca do usuario logado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/logado/biblioteca": {
+      "delete": {
+        "summary": "deleta a biblioteca do usuario logado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "300": {
+            "description": "Multiple Choices"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         }
       }

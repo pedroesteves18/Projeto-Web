@@ -76,6 +76,7 @@ module.exports= {
             }
             let decodedToken = jwt.verify(token, SECRET_KEY);
             if(decodedToken.roles === 'user'){
+                
                 const Biblioteca = require('../banco/bibliotecaPessoal')
                 const Musica = require('../banco/musica')
                 const UsuarioId = decodedToken.UserId

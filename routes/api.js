@@ -11,7 +11,7 @@ router.get('/Users', async (req,res) => {
         const usuarios = await Usuarios.listarUsers()
         res.status(200).send({usuarios: usuarios})     
     }catch(error){
-        res.status(400).send({erro:error.message})
+        res.status(400).send({erro: "erro ao listar os usuarios"})
     }
 
 })
@@ -19,12 +19,6 @@ router.get('/Users', async (req,res) => {
 router.put('/alterarUser', verificaTipo,(req,res) =>{
     // #swagger.summary = 'Um ADM altera um usuario cadastrado'
     res.json("alterado")
-})
-
-router.get('/admin', async (req,res) => {
-    // #swagger.summary = 'rota que gera um ADM'
-    const adm = await Usuarios.novoAdmin("adm1","senha1")
-    res.json({mensagem: "admin criado!"})
 })
 
 router.delete('/excluirUser/:id', verificaADM, async (req,res) => {
@@ -38,7 +32,7 @@ router.delete('/excluirUser/:id', verificaADM, async (req,res) => {
             res.status(200).send({excluido: usuarioExcluido})
         }
     }catch(error){
-        res.status(400).send({erro:error.message})
+        res.status(400).send({erro:"erro ao excluir usuario"})
     }
 })
 
@@ -53,12 +47,12 @@ router.post('/cadastroAdm', verificaADM, async (req,res) => {
         const {usuario,senha} = req.body
         let Admcriado = await Usuarios.novoAdmin(usuario,senha)
         if(Admcriado === null){
-            res.status(400).send({mensagem:"usuario ou senha já cadastrados!"})
+            res.status(300).send({mensagem:"usuario ou senha já cadastrados!"})
         } else {
             res.status(200).send({mensagem:"admin criado!"})
         }
     }catch(error){
-        res.status(400).send({erro: error.message})
+        res.status(400).send({erro: "erro ao cadastrar adm"})
     }
 })
 
@@ -68,12 +62,12 @@ router.post('/cadastroUser', async (req,res) => {
         const { usuario,senha,cidade,nome, idade } = req.body;
         const Usercriado = await Usuarios.novoUsuario(usuario, senha, idade, nome, cidade)
         if(Usercriado === null){
-            res.status(400).send({mensagem:"usuario ou senha já cadastrados!"})
+            res.status(300).send({mensagem:"usuario ou senha já cadastrados!"})
         } else {
             res.status(200).send({mensagem:"usuario criado!"})
         }
     }catch(error){
-        res.status(400).send({erro: error.message})
+        res.status(400).send({erro: "erro ao cadastrar-se"})
     }
 
 })
