@@ -1,14 +1,14 @@
 
 var express = require('express')
 var router = express.Router()
-const { verificaADM } = require('../auth/controleAcesso');
+const { verificaADM, verificaLogado, verificaUserLogado } = require('../auth/controleAcesso');
 const { Op } = require('sequelize');
 const Musica = require('../banco/musica')
 const Banda = require('../banco/banda')
 const Album = require('../banco/album')
 router.use(express.json());
 
-router.post('/inserir/banda', verificaADM ,async (req,res) => {
+router.post('/banda', verificaADM ,async (req,res) => {
         // #swagger.summary = 'ADM Insere uma banda'
     try {
         const { nome, paisOrigem } = req.body;
@@ -20,7 +20,7 @@ router.post('/inserir/banda', verificaADM ,async (req,res) => {
       }
 })
 
-router.post('/inserir/album/:bandaId', verificaADM ,async (req,res) => {
+router.post('/album/:bandaId', verificaADM ,async (req,res) => {
     // #swagger.summary = 'ADM Insere um album em uma banda'
     try{
         const bandaId = parseInt(req.params.bandaId)
@@ -38,7 +38,7 @@ router.post('/inserir/album/:bandaId', verificaADM ,async (req,res) => {
     }
 })
 
-router.post('/inserir/album/:id/musica', verificaADM,async (req,res) => {
+router.post('/album/:id/musica', verificaADM,async (req,res) => {
     // #swagger.summary = 'ADM Insere uma musica em um album'
     try{
         const albumId = parseInt(req.params.id)
@@ -60,7 +60,7 @@ router.post('/inserir/album/:id/musica', verificaADM,async (req,res) => {
     }
 })
 
-router.delete('/excluir/banda/:id', verificaADM,async(req,res) => {
+router.delete('/banda/:id', verificaADM,async(req,res) => {
     // #swagger.summary = 'ADM exclui uma banda'
     try{
         const bandaId = parseInt(req.params.id)
@@ -79,7 +79,7 @@ router.delete('/excluir/banda/:id', verificaADM,async(req,res) => {
     }
 })
 
-router.delete('/excluir/album/:id', verificaADM, async(req,res) => {
+router.delete('/album/:id', verificaADM, async(req,res) => {
     // #swagger.summary = 'ADM Insere um album'
     try{
         const albumId = parseInt(req.params.id)
@@ -98,7 +98,7 @@ router.delete('/excluir/album/:id', verificaADM, async(req,res) => {
     }
 })
 
-router.delete('/excluir/musica/:id', verificaADM, async(req,res) => {
+router.delete('/musica/:id', verificaADM, async(req,res) => {
     // #swagger.summary = 'ADM exclui uma musica'
     try{
         const musicaId = parseInt(req.params.id)
@@ -117,7 +117,7 @@ router.delete('/excluir/musica/:id', verificaADM, async(req,res) => {
     }
 })
 
-router.put('/alterar/musica/:id', verificaADM, async (req,res) => {
+router.put('/musica/:id', verificaADM, async (req,res) => {
     // #swagger.summary = 'ADM altera uma musica'
     try{
         const musicaId = parseInt(req.params.id)
@@ -136,7 +136,7 @@ router.put('/alterar/musica/:id', verificaADM, async (req,res) => {
     }
 })
 
-router.put('/alterar/album/:id', verificaADM, async (req,res) => {
+router.put('/album/:id', verificaADM, async (req,res) => {
     // #swagger.summary = 'ADM altera um album'
     try{
         const albumId = parseInt(req.params.id)
@@ -155,7 +155,7 @@ router.put('/alterar/album/:id', verificaADM, async (req,res) => {
     }
 })
 
-router.put('/alterar/banda/:id', verificaADM, async (req,res) => {
+router.put('/banda/:id', verificaADM, async (req,res) => {
     // #swagger.summary = 'ADM altera uma banda'
     try{
         const bandaId = parseInt(req.params.id)
@@ -173,5 +173,6 @@ router.put('/alterar/banda/:id', verificaADM, async (req,res) => {
         res.status(500).json({error: 'erro ao alterar a banda'})
     }
 })
+
 
 module.exports = router

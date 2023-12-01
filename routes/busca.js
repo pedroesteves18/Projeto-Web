@@ -1,11 +1,13 @@
 
 var express = require('express')
 var router = express.Router()
-const { verificaLogado } = require('../auth/controleAcesso');
+const { verificaLogado, verificaUserLogado } = require('../auth/controleAcesso');
+const {verificaBiblioteca, adicionaMusica, getBiblioteca, deleteMusica, deleteBiblioteca} = require('../auth/controleBiblioteca')
 const { Op } = require('sequelize');
 const Musica = require('../banco/musica')
 const Banda = require('../banco/banda')
 const Album = require('../banco/album')
+const Biblioteca = require('../banco/bibliotecaPessoal')
 router.use(express.json());
 
 router.get('/musicas/:limite/:pagina' ,verificaLogado, async (req,res)  => {
@@ -267,6 +269,26 @@ router.get('/banda/:id/albuns/:limite/:pagina', verificaLogado, async(req,res)=>
     }
 })
 
+///////////////////////////// logica de negocio ///////////////////////////////////
+router.post('/criarBiblioteca', verificaBiblioteca, async(req,res) => {
+    // #swagger.summary = 'cria uma biblioteca para o usuario logado'
+})
+router.post('/biblioteca/musica/:id', adicionaMusica, async(req,res) => {
+    // #swagger.summary = 'adiciona uma musica na biblioteca para o usuario logado'
 
+})
+
+router.get('/MinhaBiblioteca', getBiblioteca,async(req,res) => {
+    // #swagger.summary = 'mostra a biblioteca do usuario logado'
+
+})
+
+router.delete('/biblioteca/musica/:id', deleteMusica, async(req,res) => {
+
+})
+
+router.delete('/biblioteca', deleteBiblioteca, async(req,res)=>{
+
+})
 
 module.exports = router
