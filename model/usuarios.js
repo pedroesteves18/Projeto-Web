@@ -1,104 +1,104 @@
-var usuarios = []
-var admin = []
-var idAdm = 0
-var idUser = 0
+const User = require('../banco/usuarios')
+const Admin = require('../banco/admins')
+const { Op } = require('sequelize');
 
 module.exports = {
-    novoUsuario: function(usuario, senha, idade, nome, cidade) {
-        const UserExiste  = usuarios.find(user=> user.usuario === usuario || user.senha === senha)
-        if(UserExiste){
-            return {error:"escolha um usuario ou senha diferente"}
+    novoUsuario: async function(usuario, senha, idade, nome, cidade) {
+            const usuarioExiste = await User.findOne({
+                where: {
+                    [Op.or]:[
+                        {usuario: usuario},
+                        {senha: senha},
+                    ]
+                }
+                })
+            if(usuarioExiste){
+                return null
+            } else {
+                const userCriado = User.create({
+                    nome: nome,
+                    usuario: usuario,
+                    senha: senha,
+                    idade: idade,
+                    cidade: cidade
+                })
+                return userCriado
+            }
+    },
+    novoAdmin: async function(usuario, senha) {
+        const admExiste = await Admin.findOne({
+            where: {
+                [Op.or]:[
+                    {usuario: usuario},
+                    {senha: senha},
+                ]
+            }
+        })
+        if (admExiste){
+            return null
+        } else {
+            const adminCriado = Admin.create({
+                usuario: usuario,
+                senha: senha
+            })
+            return adminCriado
         }
-        idUser++
-        if (usuario && senha && idade && nome && cidade) {
-            const novoUsuario = {
+    },
+    getUsuario: async function(usuario, senha) {
+        const user = await User.findOne({
+            where: {
+                    usuario: usuario,
+                    senha: senha,
+            }
+        })
+        if(user !== null){
+            return user
+        }  else {
+            return null
+        }
+    },
+    getADM: async function(usuario, senha) {
+        const adm = await Admin.findOne({
+            where: {
+                    usuario: usuario,
+                    senha: senha,
+            }
+        })
+
+        if(adm !== null){
+            return adm
+        }  else {
+            return null
+        }
+    },
+    excluiUser: async function(id){
+        const excluido = await User.destroy({
+            where: {
+                id: id
+            }
+        })
+        return excluido
+    },
+    listarUsers: async function(){
+        const users = await User.findAll()
+        return users
+    },
+    alterarUser: async function(id,usuario, senha, idade, nome, cidade){
+        const alterado = await User.update(
+            {
                 usuario: usuario,
                 senha: senha,
                 idade: idade,
                 nome: nome,
-                cidade: cidade,
-                id: idUser,
-                roles: "user"
-            };
-            usuarios.push(novoUsuario);
-            return novoUsuario;
-        } else {
-            return null;
-        }
-    },
-    novoAdmin: function(usuario, senha) {
-        const admExiste = admin.find(adm => adm.usuario === usuario || adm.senha === senha)
-        if (admExiste){
-            return {error: "escolha um usuario ou senha diferente"}
-        }
-        idAdm++
-        const novoAdm = {
-            usuario: usuario,
-            senha: senha,
-            id: idAdm,
-            roles: "adm"
-        };
-        admin.push(novoAdm);
-        return novoAdm;
-    },
-    getUsuario: function(usuario, senha) {
-        for (var i = 0; i < usuarios.length; i++) {
-            if (usuarios[i].usuario === usuario && usuarios[i].senha === senha) {
-                return usuarios[i];
+                cidade: cidade
+            },
+            {
+                where: {
+                    id: id
+                }
             }
-        }
-        return null;
-    },
-    getADM: function(usuario, senha) {
-        for (var i = 0; i < admin.length; i++) {
-            if (admin[i].usuario === usuario && admin[i].senha === senha) {
-                return admin[i];
-            }
-        }
-        return null;
-    },
-    excluiUser: function(id){
-        for(var i =0; i<usuarios.length;i++){
-            if(usuarios[i].id === id){
-                let usuarioExcluido = usuarios.splice(i,1)
-                return usuarioExcluido
-            }
-        }
-        return null
-    },
-    listarUsers: function(){
-        let usuariosImp= [] 
-        for (var i = 0; i < usuarios.length; i++) {
-            usuariosImp[i] = usuarios[i]
-        }
-        return usuariosImp;
-    },
-    alterarUser: function(id,usuario, senha, idade, nome, cidade){
-        for (var i = 0; i < usuarios.length; i++) {
-            if(usuarios[i].id === id){
-                if(usuario === undefined){
-                    usuario = usuarios[i].usuario
-                }
-                if(senha === undefined){
-                    senha = usuarios[i].senha
-                }
-                if(idade === undefined){
-                    idade = usuarios[i].idade
-                }
-                if(nome === undefined){
-                    nome = usuarios[i].nome
-                }
-                if(cidade === undefined){
-                    cidade = usuarios[i].cidade
-                }
-                usuarios[i].usuario = usuario
-                usuarios[i].senha = senha
-                usuarios[i].idade = idade
-                usuarios[i].nome = nome
-                usuarios[i].cidade = cidade
-                return usuarios[i]
-            }
-        } 
+        );
+        return alterado
     }
 
 }

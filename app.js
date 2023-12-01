@@ -6,7 +6,7 @@ const bancoInstall = require('./routes/instalacao')
 const buscaRouter = require('./routes/busca')
 const apiBanco = require('./routes/apiBanco')
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/instalacao', bancoInstall)
 app.use('/api', apiRouter);

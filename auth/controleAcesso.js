@@ -23,29 +23,27 @@ module.exports= {
             res.status(500).json({ mensagem: "Não logado como adm", erro: error.message });
         }
     },
-    verificaUser: function(req, res, next) {
+    verificaUser: async function (req, res, next) {
         const { usuario, senha } = req.body;
-        const user = Usuarios.getUsuario(usuario, senha);
-        const adm = Usuarios.getADM(usuario, senha);
-        console.log({"usuario comum ": user})
-        console.log({"adm ": adm})
+        const user = await Usuarios.getUsuario(usuario, senha);
+        const adm = await Usuarios.getADM(usuario, senha);
+        if (!user && !adm) {
+            return res.status(404).json({ mensagem: "Usuário não cadastrado" });
+        }
         try {
-            if (user === null && adm === null) {
-                res.status(400).json({ mensagem: "usuário não cadastrado" });
-            } else if (adm !== null) {
-                const token = jwt.sign({ roles: "adm" }, SECRET_KEY, { expiresIn: 300 });
-                console.log('adm encontrado');
-                res.status(200).json({ mensagem: "ADM encontrado", token });
-            } else if (user !== null && adm === null) {
-                const UserId = user.id
-                const token = jwt.sign({ UserId: user.id,roles: "user" }, SECRET_KEY, { expiresIn: 300 });
-                res.status(200).json({ mensagem: "usuário encontrado", token });
+            if (adm) {
+                const token = jwt.sign({ AdmId: adm.id, roles: "adm" }, SECRET_KEY, { expiresIn: 300 });
+                return res.status(200).json({ mensagem: "ADM encontrado", token });
+            }
+            if (user){
+                const token = jwt.sign({ UserId: user.id, roles: "user" }, SECRET_KEY, { expiresIn: 300 });
+                return res.status(200).json({ mensagem: "Usuário encontrado", token });
             }
         } catch (error) {
-            res.status(500).json({ erro: error.message });
+            return res.status(500).json({ erro: error.message });
         }
     },
-    verificaTipo: function(req,res,next){
+    verificaTipo: async function(req,res,next){
         try {
             let bearToken = req.headers['authorization'] || ""
             let token = bearToken.split(" ")
@@ -56,15 +54,15 @@ module.exports= {
                 return res.status(403).json({ mensagem: "Acesso negado. Token não fornecido." });
             }
             let decodedToken = jwt.verify(token, SECRET_KEY);
-            const id = parseInt(req.params.id)
             if (decodedToken.roles === 'adm'){
+                const {id,usuario, senha, idade, nome, cidade} = req.body
+                await Usuarios.alterarUser(id,usuario, senha, idade, nome, cidade)
+                res.status(200).json({mensagem: "usuario alterado"})
+            } else if(decodedToken.roles === 'user'){
+                const idUser = decodedToken.UserId
                 const {usuario, senha, idade, nome, cidade} = req.body
-                Usuarios.alterarUser(id,usuario, senha, idade, nome, cidade)
-                next();
-            } else if(decodedToken.roles === 'user' && decodedToken.UserId === id){
-                const {usuario, senha, idade, nome, cidade} = req.body
-                Usuarios.alterarUser(id,usuario, senha, idade, nome, cidade)
-                next()
+                await Usuarios.alterarUser(idUser,usuario, senha, idade, nome, cidade)
+                res.status(200).json({mensagem: "seu usuario foi alterado"})
             }else {
                 res.status(403).json({ mensagem: "Acesso negado. Você não esta autenticado." });
             }

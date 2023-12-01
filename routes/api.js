@@ -2,35 +2,39 @@ var express = require('express')
 var router = express.Router()
 var Usuarios = require('../model/usuarios');
 const { verificaUser,verificaADM, verificaTipo } = require('../auth/controleAcesso');
+const User = require('../banco/usuarios')
 router.use(express.json());
 
-router.get('/Users', (req,res) => {
+router.get('/Users', async (req,res) => {
     // #swagger.summary = 'Lista todos os USUARIOS cadastrados'
-    let usuarios = Usuarios.listarUsers()
-    res.json({users: usuarios})
+    try{
+        const usuarios = await Usuarios.listarUsers()
+        res.status(200).send({usuarios: usuarios})     
+    }catch(error){
+        res.status(400).send({erro:error.message})
+    }
+
 })
 
-router.put('/alterarUser/:id', verificaTipo,(req,res) =>{
+router.put('/alterarUser', verificaTipo,(req,res) =>{
     // #swagger.summary = 'Um ADM altera um usuario cadastrado'
     res.json("alterado")
 })
 
-router.get('/admin', (req,res) => {
+router.get('/admin', async (req,res) => {
     // #swagger.summary = 'rota que gera um ADM'
-    let adm = Usuarios.novoAdmin("adm1","senha1")
-    res.json({mensagem: adm})
+    const adm = await Usuarios.novoAdmin("adm1","senha1")
+    res.json({mensagem: "admin criado!"})
 })
 
-router.delete('/excluirUser/:id', verificaADM, (req,res) => {
+router.delete('/excluirUser/:id', verificaADM, async (req,res) => {
         // #swagger.summary = 'um ADM exclui um usuario cadastrado'
     try{
         const id = parseInt(req.params.id)
-        let usuarioExcluido = Usuarios.excluiUser(id)
+        const usuarioExcluido = await Usuarios.excluiUser(id)
         if(usuarioExcluido === null){
-            console.log("usuario nao existente")
-            res.status(300).send({excluido: usuarioExcluido})
+            res.status(300).send({mensagem: "usuario nao encontrado"})
         } else {
-            console.log({"usuario excluido: ": usuarioExcluido})
             res.status(200).send({excluido: usuarioExcluido})
         }
     }catch(error){
@@ -43,24 +47,31 @@ router.post('/login', verificaUser, (req,res) => {
     res.json({logado: true})
 })
 
-router.post('/cadastroAdm', verificaADM, (req,res) => {
+router.post('/cadastroAdm', verificaADM, async (req,res) => {
         // #swagger.summary = 'Um ADM cadastra outro'
-    console.log('adm autorizado');
     try{
         const {usuario,senha} = req.body
-        let admin = Usuarios.novoAdmin(usuario,senha)
-        res.status(200).send({mensagem: admin})
+        let Admcriado = await Usuarios.novoAdmin(usuario,senha)
+        if(Admcriado === null){
+            res.status(400).send({mensagem:"usuario ou senha já cadastrados!"})
+        } else {
+            res.status(200).send({mensagem:"admin criado!"})
+        }
     }catch(error){
         res.status(400).send({erro: error.message})
     }
 })
 
-router.post('/cadastroUser', (req,res) => {
+router.post('/cadastroUser', async (req,res) => {
         // #swagger.summary = 'O usuario pode cadastrar um USER comum'
     try{
-        const {usuario,senha,idade,nome,cidade} = req.body
-        let user = Usuarios.novoUsuario(usuario,senha,idade,nome,cidade)
-        res.status(200).send({mensagem: user})
+        const { usuario,senha,cidade,nome, idade } = req.body;
+        const Usercriado = await Usuarios.novoUsuario(usuario, senha, idade, nome, cidade)
+        if(Usercriado === null){
+            res.status(400).send({mensagem:"usuario ou senha já cadastrados!"})
+        } else {
+            res.status(200).send({mensagem:"usuario criado!"})
+        }
     }catch(error){
         res.status(400).send({erro: error.message})
     }
