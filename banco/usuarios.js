@@ -21,6 +21,10 @@ const User = sequelize.define('Usuario', {
     idade: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    adm:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   });
 

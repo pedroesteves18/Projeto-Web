@@ -7,13 +7,10 @@ const banco = require('../banco/db');
 const album = require('../banco/album')
 const banda = require('../banco/banda')
 const musica = require('../banco/musica')
-const User = require('../banco/usuarios')
-const Admin = require('../banco/admins')
-const Biblioteca = require('../banco/bibliotecaPessoal')
-const Usuarios = require('../model/usuarios')
+const Usuarios = require('../functions/funcoesUsers')
 router.get('/', async (req,res)=> {
     // #swagger.summary = 'instala banco de dados'
-    const adm = await Usuarios.novoAdmin("adm1","senha1")
+    const adm = await Usuarios.novoAdmin("adm1","senha1",1,"ADM","cidade1")
     try{
         banda.create({
             nome: "Sarcofago",
@@ -571,104 +568,6 @@ router.get('/', async (req,res)=> {
                     duracao: "298",
                     AlbumId: South.id
                 })
-            })
-        })
-        
-        Admin.create({
-            usuario: "usuarioADM1",
-            senha: "senhaADM1"
-        })
-        Admin.create({
-            usuario: "usuarioADM2",
-            senha: "senhaADM2"
-        })
-        Admin.create({
-            usuario: "usuarioADM3",
-            senha: "senhaADM3"
-        })
-        Admin.create({
-            usuario: "usuarioADM4",
-            senha: "senhaADM4"
-        })
-        Admin.create({
-            usuario: "usuarioADM5",
-            senha: "senhaADM5"
-        })
-        User.create({
-            usuario: "usuario1",
-            senha: "senha1",
-            nome: "Pedro",
-            cidade: "Matão",
-            idade: 19
-        }).then((user1) => {
-            Biblioteca.create({
-                nome:"biblioteca User 1",
-                UsuarioId: user1.id
-            }).then((biblioteca1) => {
-                biblioteca1.addMusica(1)
-                biblioteca1.addMusica(32)
-                biblioteca1.addMusica(11)
-                
-            })
-        })
-        User.create({
-            usuario: "usuario2",
-            senha: "senha2",
-            nome: "Joao",
-            cidade: "Londrina",
-            idade: 23
-        }).then((user2) => {
-            Biblioteca.create({
-                nome:"biblioteca User 2",
-                UsuarioId: user2.id
-            }).then((biblioteca2) => {
-                biblioteca2.addMusica(4)
-                biblioteca2.addMusica(15)
-            })
-        })
-        User.create({
-            usuario: "usuario3",
-            senha: "senha3",
-            nome: "Carlos",
-            cidade: "Araraquara",
-            idade: 34
-        }).then((user3) => {
-            Biblioteca.create({
-                nome:"biblioteca User 3",
-                UsuarioId: user3.id
-            }).then((biblioteca3) => {
-                biblioteca3.addMusica(3)
-                biblioteca3.addMusica(26)
-            })
-        })
-        User.create({
-            usuario: "usuario4",
-            senha: "senha4",
-            nome: "Alice",
-            cidade: "Matão",
-            idade: 25
-        }).then((user4) => {
-            Biblioteca.create({
-                nome:"biblioteca User 4",
-                UsuarioId: user4.id
-            }).then((biblioteca4) => {
-                biblioteca4.addMusica(4)
-                biblioteca4.addMusica(41)
-                biblioteca4.addMusica(9)
-            })
-        })
-        User.create({
-            usuario: "usuario5",
-            senha: "senha5",
-            nome: "Carol",
-            cidade: "São Carlos",
-            idade: 21
-        }).then((user5) => {
-            Biblioteca.create({
-                nome:"biblioteca User 5",
-                UsuarioId: user5.id
-            }).then((biblioteca5) => {
-                biblioteca5.addMusica(5)
             })
         })
 

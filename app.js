@@ -1,17 +1,13 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const apiRouter = require('./routes/api');
+const apiRouter = require('./routes/Api');
 const bancoInstall = require('./routes/instalacao')
-const buscaRouter = require('./routes/busca')
-const apiBanco = require('./routes/apiBanco')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/instalacao', bancoInstall)
 app.use('/api', apiRouter);
-app.use('/logado', buscaRouter);
-app.use('/apiBanco', apiBanco)
 const sequelize = require('./banco/db');
 
 const swaggerUi = require('swagger-ui-express')

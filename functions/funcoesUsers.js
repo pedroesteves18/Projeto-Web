@@ -1,5 +1,4 @@
 const User = require('../banco/usuarios')
-const Admin = require('../banco/admins')
 const { Op } = require('sequelize');
 
 module.exports = {
@@ -20,28 +19,33 @@ module.exports = {
                     usuario: usuario,
                     senha: senha,
                     idade: idade,
-                    cidade: cidade
+                    cidade: cidade,
+                    adm: false
                 })
                 return userCriado
             }
     },
-    novoAdmin: async function(usuario, senha) {
-        const admExiste = await Admin.findOne({
+    novoAdmin: async function(usuario, senha, idade, nome, cidade) {
+        const usuarioExiste = await User.findOne({
             where: {
                 [Op.or]:[
                     {usuario: usuario},
                     {senha: senha},
                 ]
             }
-        })
-        if (admExiste){
+            })
+        if(usuarioExiste){
             return null
         } else {
-            const adminCriado = Admin.create({
+            const userCriado = User.create({
+                nome: nome,
                 usuario: usuario,
-                senha: senha
+                senha: senha,
+                idade: idade,
+                cidade: cidade,
+                adm: true
             })
-            return adminCriado
+            return userCriado
         }
     },
     getUsuario: async function(usuario, senha) {
@@ -49,6 +53,7 @@ module.exports = {
             where: {
                     usuario: usuario,
                     senha: senha,
+                    adm: false
             }
         })
         if(user !== null){
@@ -58,10 +63,11 @@ module.exports = {
         }
     },
     getADM: async function(usuario, senha) {
-        const adm = await Admin.findOne({
+        const adm = await User.findOne({
             where: {
                     usuario: usuario,
                     senha: senha,
+                    adm: true
             }
         })
 
@@ -90,7 +96,8 @@ module.exports = {
                 senha: senha,
                 idade: idade,
                 nome: nome,
-                cidade: cidade
+                cidade: cidade,
+                adm: false
             },
             {
                 where: {
